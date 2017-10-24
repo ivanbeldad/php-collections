@@ -18,7 +18,7 @@ class ArrayList implements Lists
     /** @var int */
     private $size = 0;
     /** @var string */
-    private $type = null;
+    protected $type = null;
 
     /**
      * ArrayList constructor.
@@ -170,7 +170,7 @@ class ArrayList implements Lists
         }
     }
 
-    protected function checkType($element) {
+    private function checkType($element) {
         if ($this->type === null) {
             $this->type = gettype($element);
             if ($this->type === 'object') {
