@@ -167,7 +167,7 @@ class ArrayList implements Lists
         usort($this->array, $comparator);
     }
 
-    private function checkType($element) {
+    protected function checkType($element) {
         if ($this->type === null) {
             $this->type = gettype($element);
             if ($this->type === 'object') {
