@@ -2,6 +2,7 @@
 
 namespace Collection;
 
+use ReflectionClass;
 use RuntimeException;
 
 /**
@@ -12,7 +13,7 @@ class ArrayList implements Lists
 {
 
     /** @const int */
-    const NOT_FOUND = 1;
+    const NOT_FOUND = -1;
     /** @var array */
     private $array = [];
     /** @var int */
@@ -92,7 +93,11 @@ class ArrayList implements Lists
             }
             --$pos;
         }
-        $this->size = array_reverse(array_keys($this->array))[0] + 1;
+        if (count($this->array) === 0) {
+            $this->size = 0;
+        } else {
+            $this->size = array_reverse(array_keys($this->array))[0] + 1;
+        }
     }
 
     public function clear()
@@ -131,6 +136,10 @@ class ArrayList implements Lists
         return false;
     }
 
+    /**
+     * @param mixed $element
+     * @return int
+     */
     public function indexOf($element)
     {
         foreach ($this->array as $index => $item) {
@@ -162,27 +171,30 @@ class ArrayList implements Lists
             usort($this->array, function($o1, $o2) use ($comparator) {
                 return $comparator->compareTo($o1, $o2);
             });
-            return;
+        } else {
+            usort($this->array, $comparator);
         }
-        usort($this->array, $comparator);
         if (!$ascendent) {
-            $this->array = array_reverse($this->array, true);
+            $this->array = array_reverse($this->array);
         }
     }
 
     private function checkType($element) {
+        if ($element === null) return;
         if ($this->type === null) {
             $this->type = gettype($element);
             if ($this->type === 'object') {
-                $this->type = get_class($element);
+                $className = get_class($element);
+                $reflectionClass = new ReflectionClass($className);
+                $this->type = $reflectionClass->newInstanceWithoutConstructor();
             }
         }
-        if (gettype($element) === 'object') {
-            if (get_class($element) !== $this->type) {
-                throw new RuntimeException("All elements on the List must have same type.");
+        if (gettype($this->type) === 'object') {
+            if (!($element instanceof $this->type)) {
+                throw new RuntimeException("All elements on the List must be type " . get_class($this->type));
             }
         } else if (gettype($element) !== $this->type) {
-            throw new RuntimeException("All elements on the List must have same type.");
+            throw new RuntimeException("All elements on the List must be type " . $this->type);
         }
     }
 
