@@ -151,7 +151,7 @@ class ArrayList implements Lists
         return ArrayList::NOT_FOUND;
     }
 
-    public function sort($comparator)
+    public function sort($comparator, $ascendent = true)
     {
         if (gettype($comparator) !== 'object') {
             if (!($comparator instanceof Comparator) || get_class($comparator) !== 'Closure') {
@@ -165,6 +165,9 @@ class ArrayList implements Lists
             return;
         }
         usort($this->array, $comparator);
+        if (!$ascendent) {
+            $this->array = array_reverse($this->array, true);
+        }
     }
 
     protected function checkType($element) {

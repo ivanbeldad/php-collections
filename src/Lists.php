@@ -76,8 +76,9 @@ interface Lists
 
     /**
      * @param Comparator|callable $comparator
+     * @param boolean $ascendent
      * @return void
      */
-    function sort($comparator);
+    function sort($comparator, $ascendent);
 
 }
