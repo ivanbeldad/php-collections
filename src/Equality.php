@@ -1,6 +1,11 @@
 <?php
 
+namespace Collection;
 
+/**
+ * Interface Equality
+ * @package Collection
+ */
 interface Equality
 {
 

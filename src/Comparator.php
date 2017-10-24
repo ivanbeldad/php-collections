@@ -1,6 +1,11 @@
 <?php
 
+namespace Collection;
 
+/**
+ * Interface Comparator
+ * @package Collection
+ */
 interface Comparator
 {
 

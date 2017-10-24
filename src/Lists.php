@@ -1,7 +1,11 @@
 <?php
 
+namespace Collection;
 
-
+/**
+ * Interface Lists
+ * @package Collection
+ */
 interface Lists
 {
 
@@ -71,7 +75,7 @@ interface Lists
     function toArray();
 
     /**
-     * @param Comparator $comparator
+     * @param Comparator|callable $comparator
      * @return void
      */
     function sort($comparator);

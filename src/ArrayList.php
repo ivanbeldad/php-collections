@@ -1,18 +1,24 @@
 <?php
 
+namespace Collection;
+
+use RuntimeException;
+
 /**
  * Class ArrayList
- * @type Lists<Date>
+ * @package Collection
  */
 class ArrayList implements Lists
 {
-    const NOT_FOUND = 1;
 
+    /** @const int */
+    const NOT_FOUND = 1;
     /** @var array */
     private $array = [];
-
     /** @var int */
     private $size = 0;
+    /** @var string */
+    private $type = null;
 
     /**
      * ArrayList constructor.
@@ -25,12 +31,14 @@ class ArrayList implements Lists
 
     public function add($element)
     {
+        $this->checkType($element);
         $this->array[$this->size] = $element;
         ++$this->size;
     }
 
-    function addAt($index, $element)
+    public function addAt($index, $element)
     {
+        $this->checkType($element);
         if (isset($this->array[$index])) {
             $pos = $this->size - 1;
             while ($pos >= $index) {
@@ -47,14 +55,14 @@ class ArrayList implements Lists
         $this->array[$index] = $element;
     }
 
-    function addAll($elements)
+    public function addAll($elements)
     {
         foreach ($elements as $element) {
             $this->add($element);
         }
     }
 
-    function addAllAt($index, $elements)
+    public function addAllAt($index, $elements)
     {
         $pos = $index;
         foreach ($elements as $element) {
@@ -68,7 +76,7 @@ class ArrayList implements Lists
         return $this->array[$index];
     }
 
-    function remove($index)
+    public function remove($index)
     {
         for ($i = $index; $i < $this->size - 1; $i++) {
             $this->array[$i] = $this->array[$i + 1];
@@ -87,23 +95,23 @@ class ArrayList implements Lists
         $this->size = array_reverse(array_keys($this->array))[0] + 1;
     }
 
-    function clear()
+    public function clear()
     {
         $this->array = [];
         $this->size = 0;
     }
 
-    function size()
+    public function size()
     {
         return $this->size;
     }
 
-    function toArray()
+    public function toArray()
     {
         return $this->array;
     }
 
-    function containts($element)
+    public function containts($element)
     {
         foreach ($this->array as $item) {
             $equalityMethod = true;
@@ -123,7 +131,7 @@ class ArrayList implements Lists
         return false;
     }
 
-    function indexOf($element)
+    public function indexOf($element)
     {
         foreach ($this->array as $index => $item) {
             $equalityMethod = true;
@@ -143,10 +151,36 @@ class ArrayList implements Lists
         return ArrayList::NOT_FOUND;
     }
 
-    function sort($comparator)
+    public function sort($comparator)
     {
-        // TODO: Implement sort() method.
-        throw new RuntimeException("Not implemented");
+        if (gettype($comparator) !== 'object') {
+            if (!($comparator instanceof Comparator) || get_class($comparator) !== 'Closure') {
+                throw new RuntimeException('ArrayList.sort must receive an Comparator or a callable instance');
+            }
+        }
+        if ($comparator instanceof Comparator) {
+            usort($this->array, function($o1, $o2) use ($comparator) {
+                return $comparator->compareTo($o1, $o2);
+            });
+            return;
+        }
+        usort($this->array, $comparator);
+    }
+
+    private function checkType($element) {
+        if ($this->type === null) {
+            $this->type = gettype($element);
+            if ($this->type === 'object') {
+                $this->type = get_class($element);
+            }
+        }
+        if (gettype($element) === 'object') {
+            if (get_class($element) !== $this->type) {
+                throw new RuntimeException("All elements on the List must have same type.");
+            }
+        } else if (gettype($element) !== $this->type) {
+            throw new RuntimeException("All elements on the List must have same type.");
+        }
     }
 
 }
