@@ -1,0 +1,19 @@
+{
+    "name": "ivandelabeldad/collections",
+    "description": "Basic Collections library for PHP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivan de la Beldad",
+            "email": "ivandelabeldad@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Collection\\": "src/"
+        }
+    }
+}
