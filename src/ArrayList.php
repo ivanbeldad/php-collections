@@ -182,12 +182,12 @@ class ArrayList implements Lists
 
     public function filter(callable $callable)
     {
-        return new ArrayList(array_filter($this->array, $callable));
+        return new $this(array_filter($this->array, $callable));
     }
 
     public function map(callable $callable)
     {
-        return new ArrayList(array_map($callable, $this->array));
+        return new $this(array_map($callable, $this->array));
     }
 
     private function checkType($element) {
