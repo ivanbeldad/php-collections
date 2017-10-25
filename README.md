@@ -36,6 +36,31 @@ $list->addAt(10, "element in position 10");
 $list->size();
 ```
 
+### Functional programming
+```php
+$list = new ArrayList([
+    'first',
+    'second',
+    'third',
+    'fourth',
+]);
+
+// EDIT EACH ELEMENT
+$list->forEachDo(function (&$element) {
+    $element = ucfirst($element);
+});
+
+// MAPPING
+$mapped = $list->map(function ($element) {
+    return "Mapped " . $element;
+});
+
+// FILTERING
+$filtered = $list->filter(function ($element) {
+   return strlen($element) > 5;
+});
+```
+
 
 ## License
 

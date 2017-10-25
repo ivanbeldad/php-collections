@@ -81,4 +81,22 @@ interface Lists
      */
     function sort($comparator, $ascendent);
 
+    /**
+     * @param callable $callable
+     * @return void
+     */
+    function forEachDo(callable $callable);
+
+    /**
+     * @param callable $callable
+     * @return Lists
+     */
+    function filter(callable $callable);
+
+    /**
+     * @param callable $callable
+     * @return Lists
+     */
+    function map(callable $callable);
+
 }

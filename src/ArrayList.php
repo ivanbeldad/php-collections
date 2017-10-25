@@ -136,10 +136,6 @@ class ArrayList implements Lists
         return false;
     }
 
-    /**
-     * @param mixed $element
-     * @return int
-     */
     public function indexOf($element)
     {
         foreach ($this->array as $index => $item) {
@@ -177,6 +173,21 @@ class ArrayList implements Lists
         if (!$ascendent) {
             $this->array = array_reverse($this->array);
         }
+    }
+
+    public function forEachDo(callable $callable)
+    {
+        array_walk($this->array, $callable);
+    }
+
+    public function filter(callable $callable)
+    {
+        return new ArrayList(array_filter($this->array, $callable));
+    }
+
+    public function map(callable $callable)
+    {
+        return new ArrayList(array_map($callable, $this->array));
     }
 
     private function checkType($element) {
