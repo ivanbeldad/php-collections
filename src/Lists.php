@@ -99,4 +99,11 @@ interface Lists
      */
     function map(callable $callable);
 
+    /**
+     * @param callable $callable
+     * @param mixed $initialValue
+     * @return mixed
+     */
+    function reduce(callable $callable, $initialValue);
+
 }

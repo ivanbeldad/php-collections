@@ -190,6 +190,11 @@ class ArrayList implements Lists
         return new ArrayList(array_map($callable, $this->array));
     }
 
+    public function reduce(callable $callable, $initialValue)
+    {
+        return array_reduce($this->array, $callable, $initialValue);
+    }
+
     private function checkType($element) {
         if ($element === null) return;
         if ($this->type === null) {
