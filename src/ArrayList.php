@@ -87,7 +87,9 @@ class ArrayList implements Lists
     public function removeAt($index)
     {
         if ($index >= $this->size) {
-            throw new RuntimeException("Trying to delete an element that doesn't exists");
+            $message = "Trying to delete an element that doesn't exists. ";
+            $message .= "Index: " . $index . ", Size: " . $this->size . ".";
+            throw new RuntimeException($message);
         }
         for ($i = $index; $i < $this->size - 1; $i++) {
             $this->array[$i] = $this->array[$i + 1];
@@ -175,7 +177,7 @@ class ArrayList implements Lists
     {
         if (gettype($comparator) !== 'object') {
             if (!($comparator instanceof Comparator) || get_class($comparator) !== 'Closure') {
-                throw new RuntimeException('ArrayList.sort must receive an Comparator or a callable instance');
+                throw new RuntimeException('ArrayList.sort must receive a Comparator or a callable instance.');
             }
         }
         if ($comparator instanceof Comparator) {
@@ -220,12 +222,16 @@ class ArrayList implements Lists
                 $this->type = $reflectionClass->newInstanceWithoutConstructor();
             }
         }
-        if (gettype($this->type) === 'object') {
+        if (gettype($element) === 'object') {
             if (!($element instanceof $this->type)) {
-                throw new RuntimeException("All elements on the List must be type " . get_class($this->type));
+                $message = "All elements on the List must be type " . get_class($this->type);
+                $message .= ". Trying to add " . get_class($element) . ".";
+                throw new RuntimeException($message);
             }
         } else if (gettype($element) !== $this->type) {
-            throw new RuntimeException("All elements on the List must be type " . $this->type);
+            $message = "All elements on the List must be type " . get_class($this->type);
+            $message .= ". Trying to add " . gettype($element) . ".";
+            throw new RuntimeException($message);
         }
     }
 
