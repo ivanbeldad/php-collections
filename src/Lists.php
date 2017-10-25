@@ -89,13 +89,13 @@ interface Lists
 
     /**
      * @param callable $callable
-     * @return $this
+     * @return ArrayList
      */
     function filter(callable $callable);
 
     /**
      * @param callable $callable
-     * @return $this
+     * @return ArrayList
      */
     function map(callable $callable);
 
