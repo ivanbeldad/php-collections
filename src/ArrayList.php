@@ -162,11 +162,11 @@ class ArrayList implements Lists
             }
             if ($equalityMethod) {
                 if ($element->equals($item)) {
-                    return $index;
+                    return intval($index);
                 }
             } else {
                 if ($element === $item) {
-                    return $index;
+                    return intval($index);
                 }
             }
         }
