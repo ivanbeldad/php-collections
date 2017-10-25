@@ -42,10 +42,16 @@ interface Lists
     function get($index);
 
     /**
+     * @param mixed $element
+     * @return void
+     */
+    function remove($element);
+
+    /**
      * @param int $index
      * @return void
      */
-    function remove($index);
+    function removeAt($index);
 
     /**
      * @return void
@@ -70,6 +76,11 @@ interface Lists
     function size();
 
     /**
+     * @return boolean
+     */
+    function isEmpty();
+
+    /**
      * @return array
      */
     function toArray();
@@ -89,13 +100,13 @@ interface Lists
 
     /**
      * @param callable $callable
-     * @return ArrayList
+     * @return Lists
      */
     function filter(callable $callable);
 
     /**
      * @param callable $callable
-     * @return ArrayList
+     * @return Lists
      */
     function map(callable $callable);
 

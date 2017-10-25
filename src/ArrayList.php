@@ -77,8 +77,18 @@ class ArrayList implements Lists
         return $this->array[$index];
     }
 
-    public function remove($index)
+    public function remove($element)
     {
+        $index = $this->indexOf($element);
+        if ($index === self::NOT_FOUND) return;
+        $this->removeAt($index);
+    }
+
+    public function removeAt($index)
+    {
+        if ($index >= $this->size) {
+            throw new RuntimeException("Trying to delete an element that doesn't exists");
+        }
         for ($i = $index; $i < $this->size - 1; $i++) {
             $this->array[$i] = $this->array[$i + 1];
         }
@@ -109,6 +119,11 @@ class ArrayList implements Lists
     public function size()
     {
         return $this->size;
+    }
+
+    public function isEmpty()
+    {
+        return $this->size === 0;
     }
 
     public function toArray()
