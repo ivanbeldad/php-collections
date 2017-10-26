@@ -173,8 +173,26 @@ class ArrayList implements Lists
         return ArrayList::NOT_FOUND;
     }
 
-    public function sort($comparator, $ascendent = true)
+    /**
+     * @param callable $comparator
+     * @param bool $ascendent
+     */
+    public function sort($comparator = null, $ascendent = true)
     {
+        if ($comparator === null) {
+            if (gettype($this->type) !== 'object') {
+                throw new RuntimeException('ArrayList.sort must receive a Comparator or a callable instance with basic types.');
+            } else if (!($this->type instanceof Comparable)) {
+                throw new RuntimeException('ArrayList.sort must receive a Comparator or a callable instance or implement Comparable.');
+            }
+            usort($this->array, function(Comparable $o1, Comparable $o2) {
+                return $o1->compareTo($o2);
+            });
+            if (!$ascendent) {
+                $this->array = array_reverse($this->array);
+            }
+            return;
+        }
         if (gettype($comparator) !== 'object') {
             if (!($comparator instanceof Comparator) || get_class($comparator) !== 'Closure') {
                 throw new RuntimeException('ArrayList.sort must receive a Comparator or a callable instance.');
